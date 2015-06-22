@@ -1,10 +1,9 @@
 {
   "name": "rail-crossing",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "title": "Rail Crossing",
   "author": "Kikkers",
   "description": "Adds a special rail segment that imitates a bridge or tunnel, allowing trains to ignore other trains on this segment. 
-  Warning 1: This mod exploits a bug, and the mod may stop working in the future.
-  Warning 2: Train carriages are modified to work with the crossing, making them collision-free. This makes it problematic to place trains. It's advised to have only 1 of a type of train carriage in your inventory at once while placing them.",
+  Warning: This mod exploits a bug, and the mod may stop working in the future.",
   "dependencies": ["base", "? RailTanker"]
 }
