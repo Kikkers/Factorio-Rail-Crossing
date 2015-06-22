@@ -69,12 +69,22 @@ end
 
 
 trainBuilt = function (entity, playerindex)
+	local player = game.players[playerindex]
 	local pos = entity.position
 	local area = {{pos.x - 2.5, pos.y - 2.5}, {pos.x + 2.5, pos.y + 2.5}}
 	local numOccupying = numOccupyingRail(area, "locomotive") + numOccupyingRail(area, "cargo-wagon")
 	if numOccupying > 1 then
-		game.players[playerindex].insert{ name = entity.name, count = 1 }
+		player.insert{ name = entity.name, count = 1 }
 		entity.destroy()
+	else
+		local data = {}
+		data.playerindex = playerindex
+		data.name = entity.name
+		data.count = player.getitemcount(entity.name)
+		if data.count > 0 then
+			player.removeitem{name = entity.name, count = data.count}
+			table.insert(carriage_recover, data)
+		end
 	end
 end
 
@@ -98,3 +108,12 @@ game.onevent(defines.events.onentitydied, entityRemovedPlayerless)
 
 game.onevent(defines.events.onbuiltentity, entityBuilt)
 game.onevent(defines.events.onrobotbuiltentity, entityBuilt)
+
+
+carriage_recover = {}
+game.onevent(defines.events.ontick, function(event)
+	for _,v in pairs(carriage_recover) do
+		game.players[v.playerindex].insert{ name = v.name, count = v.count }
+	end
+	carriage_recover = {}
+end)
